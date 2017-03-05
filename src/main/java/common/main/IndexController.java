@@ -115,8 +115,13 @@ public class IndexController {
     }
     @RequestMapping("/search")
     public String userSearch(@ModelAttribute("searchUser") SearchFields search,
+                             BindingResult result,
                              ModelMap model)
     {
+        if (result.hasErrors()) {
+            model.addAttribute("mess", result.getAllErrors());
+            return "error";
+        }
         searchFields.setSearchName(search.getSearchName());
         searchFields.setSearchAge(search.getSearchAge());
         manageUser.pageStartNum=0;
